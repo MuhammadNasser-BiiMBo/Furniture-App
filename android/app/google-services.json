@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "287615963988",
+    "project_id": "furnitured-60c8f",
+    "storage_bucket": "furnitured-60c8f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:287615963988:android:1c3c32347861bfeedceec1",
+        "android_client_info": {
+          "package_name": "com.example.furnitured"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "287615963988-iqdcs0f6i58460trv1l9ukrnbc661pr0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAW9BAZ9T_sQjEZicUs48SMYBD3RnEIkOI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "287615963988-iqdcs0f6i58460trv1l9ukrnbc661pr0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "287615963988-gsej4uo04l2i35ba2p5ms9m6k9ql6o4g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.furnitured"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
