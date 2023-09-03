@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
@@ -40,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    mainCubit.signOut(context);
+                    mainCubit.logoutDialog(context);
                   },
                   child: Padding(
                     padding: EdgeInsets.all(8.sp),
@@ -52,46 +53,50 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
           ),
-          body: Padding(
-            padding: EdgeInsets.symmetric(vertical: 2.h,horizontal: 5.w),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 35.sp,
-                      backgroundColor: Colors.grey,
-                      child: user!.image!.isEmpty?Icon(
-                        Icons.person,
-                        size: 35.sp,
-                        color: AppColors.appPrimary,
-                      ):
-                      Image.network(user.image!,fit: BoxFit.fill,),
-                    ),
-                    SizedBox(width: 5.w,),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        BigText(text: user.name!,spacing: 0,weight: FontWeight.w700,size: 15.sp,),
-                        SmallText(text: user.email!,spacing: 0,weight: FontWeight.w400,size: 11.sp),
-                      ],
-                    )
-                  ],
-                ),
-                SizedBox(height: 4.h,),
-                ProfileWidget(title: 'My Orders',text: 'Already have ${user.orders} orders',onPressed: (){},),
-                SizedBox(height: 2.h,),
-                ProfileWidget(title: 'Shipping Address',text: user.address!.isEmpty?'Please Add Your Location':user.address!,onPressed: (){},),
-                SizedBox(height: 2.h,),
-                ProfileWidget(title: 'My Reviews',text: 'Reviews for ${user.reviews} items',onPressed: (){},),
-                SizedBox(height: 2.h,),
-                ProfileWidget(title: 'Settings',text: 'Notification, Password, FAQ, Contact',onPressed: (){},),
-              ],
+          body: ConditionalBuilder(
+            condition: user!=null,
+            builder:(context)=> Padding(
+              padding: EdgeInsets.symmetric(vertical: 2.h,horizontal: 5.w),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 35.sp,
+                        backgroundColor: Colors.grey,
+                        child: user!.image!.isEmpty?Icon(
+                          Icons.person,
+                          size: 35.sp,
+                          color: AppColors.appPrimary,
+                        ):
+                        Image.network(user.image!,fit: BoxFit.fill,),
+                      ),
+                      SizedBox(width: 5.w,),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          BigText(text: user.name!,spacing: 0,weight: FontWeight.w700,size: 15.sp,),
+                          SmallText(text: user.email!,spacing: 0,weight: FontWeight.w400,size: 11.sp),
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 4.h,),
+                  ProfileWidget(title: 'My Orders',text: 'Already have ${user.orders} orders',onPressed: (){},),
+                  SizedBox(height: 2.h,),
+                  ProfileWidget(title: 'Shipping Address',text: user.address!.isEmpty?'Please Add Your Location':user.address!,onPressed: (){},),
+                  SizedBox(height: 2.h,),
+                  ProfileWidget(title: 'My Reviews',text: 'Reviews for ${user.reviews} items',onPressed: (){},),
+                  SizedBox(height: 2.h,),
+                  ProfileWidget(title: 'Settings',text: 'Notification, Password, FAQ, Contact',onPressed: (){},),
+                ],
+              ),
             ),
+            fallback: (context)=> const Center(child: CircularProgressIndicator(),),
           ),
         );
       },

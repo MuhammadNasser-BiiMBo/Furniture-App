@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
 
     return Sizer(
       builder: (BuildContext context, Orientation orientation, DeviceType deviceType) {
+
         return MultiBlocProvider(
           providers: [
             BlocProvider(create: (BuildContext context)=>MainCubit()),

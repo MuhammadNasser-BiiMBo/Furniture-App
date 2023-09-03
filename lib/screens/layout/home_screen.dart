@@ -131,17 +131,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 2.h,
                     ),
                     // products
-                    GridView.count(
-                      crossAxisCount: 2,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      crossAxisSpacing: 5.w,
-                      mainAxisSpacing: 2.h,
-                      childAspectRatio: 1 / 1.8,
-                      scrollDirection: Axis.vertical,
-                      children: List.generate(
-                        homeCubit.getCategories()[homeCubit.selectedCategory].length,
-                        (index) => Product(product:homeCubit.getCategories()[homeCubit.selectedCategory][index]),
+                    ConditionalBuilder(
+                      condition: homeCubit.allProducts.isNotEmpty,
+                      fallback: (context) => const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.appPrimary,
+                        ),
+                      ),
+                      builder: (context) => GridView.count(
+                        crossAxisCount: 2,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        crossAxisSpacing: 5.w,
+                        mainAxisSpacing: 2.h,
+                        childAspectRatio: 1 / 1.8,
+                        scrollDirection: Axis.vertical,
+                        children: List.generate(
+                          homeCubit
+                              .getCategories()[homeCubit.selectedCategory]
+                              .length,
+                          (index) => Product(
+                              product: homeCubit.getCategories()[
+                                  homeCubit.selectedCategory][index]),
+                        ),
                       ),
                     ),
                   ],

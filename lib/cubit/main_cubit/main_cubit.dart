@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:furnitured/widgets/big_text.dart';
+import 'package:sizer/sizer.dart';
 import '../../cache_helper/cache_helper.dart';
 import '../../constants/components.dart';
 import '../../constants/constants.dart';
@@ -17,6 +20,9 @@ class MainCubit extends Cubit<MainStates> {
   int get selectedIndex => _selectedIndex;
 
   void changeBottomNav(int index) {
+    if(index == 1){
+      getFavorites();
+    }
     _selectedIndex = index;
     emit(ChangeBottomNavState());
   }
@@ -30,6 +36,27 @@ class MainCubit extends Cubit<MainStates> {
       emit(GetUserSuccessState());
     }).catchError((error) {
       emit(GetUserErrorState());
+      print(error.toString());
+    });
+  }
+
+  List<ProductModel> favorites = [];
+  void getFavorites() {
+    emit(GetFavLoadingState());
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uId)
+        .collection('Favorites')
+        .get()
+        .then((value) {
+          favorites = [];
+          for (var element in value.docs) {
+            favorites.add(ProductModel.fromJson(element.data()));
+          }
+          emit(GetFavSuccessState());
+    }).catchError((error){
+      print(error.toString());
+      emit(GetFavErrorState());
     });
   }
 
@@ -42,5 +69,47 @@ class MainCubit extends Cubit<MainStates> {
     });
   }
 
-
+  void logoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: BigText(
+            text: 'Are you sure to log out ?',
+            family: 'Gelasio',
+            spacing: 0,
+            size: 15.sp,
+            weight: FontWeight.w400,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                signOut(context);
+              },
+              child: BigText(
+                text: 'Yes',
+                family: 'Gelasio',
+                spacing: 0,
+                size: 17.sp,
+                weight: FontWeight.w600,
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: BigText(
+                text: 'No',
+                family: 'Gelasio',
+                spacing: 0,
+                size: 17.sp,
+                weight: FontWeight.w600,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
