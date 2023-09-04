@@ -54,21 +54,41 @@ class FavoritesScreen extends StatelessWidget {
               )),
           body: ConditionalBuilder(
             condition: favorites.isNotEmpty,
-            fallback: (context)=> const Center(child: Center(child: CircularProgressIndicator(color: AppColors.appPrimary,),),),
-            builder:(context)=> Padding(
-              padding:  EdgeInsets.symmetric(vertical: 2.h,horizontal: 5.w),
+            fallback: (context) => Center(
+              child: Center(
+                child: BigText(
+                    text: 'You have no favorites !!',
+                    spacing: 0,
+                    weight: FontWeight.w700,
+                    size: 20.sp),
+              ),
+            ),
+            builder: (context) => Padding(
+              padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
               child: Stack(
                 children: [
                   ListView.separated(
-                      itemBuilder: (context,index){
-                        return FavWidget(product: favorites[index],);
-                      },
-                      separatorBuilder: (context,index){
-                        return Container(height: 1,width: double.maxFinite,color: AppColors.appBlurGrey,);
-                      },
-                      itemCount: favorites.length,
+                    itemBuilder: (context, index) {
+                      return FavWidget(
+                        product: favorites[index],
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return Container(
+                        height: 1,
+                        width: double.maxFinite,
+                        color: AppColors.appBlurGrey,
+                      );
+                    },
+                    itemCount: favorites.length,
                   ),
-                  Positioned(bottom: 1.h,child: AppButton(text: 'Add all to my cart',onPressed: () {},buttonWidth: 90.w),),
+                  Positioned(
+                    bottom: 1.h,
+                    child: AppButton(
+                        text: 'Add all to my cart',
+                        onPressed: () {},
+                        buttonWidth: 90.w),
+                  ),
                 ],
               ),
             ),

@@ -29,7 +29,7 @@ class UserModel {
     orders = json['orders'];
   }
 
-  Map<String,dynamic> toMap(){
+  Map<String,dynamic> toJson(){
     return {
       'name':name,
       'email':email,

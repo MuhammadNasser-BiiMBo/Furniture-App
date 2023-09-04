@@ -23,9 +23,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    if (Constants.uId != null) {
-      MainCubit.get(context).getUserData();
-    }
+    // if (Constants.uId != null) {
+    //   MainCubit.get(context).getUserData();
+    // }
     return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -132,29 +132,34 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     // products
                     ConditionalBuilder(
-                      condition: homeCubit.allProducts.isNotEmpty,
+                      condition: homeCubit.allProducts.isNotEmpty && MainCubit.get(context).user!.uId!=null,
                       fallback: (context) => const Center(
                         child: CircularProgressIndicator(
                           color: AppColors.appPrimary,
                         ),
                       ),
-                      builder: (context) => GridView.count(
-                        crossAxisCount: 2,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        crossAxisSpacing: 5.w,
-                        mainAxisSpacing: 2.h,
-                        childAspectRatio: 1 / 1.8,
-                        scrollDirection: Axis.vertical,
-                        children: List.generate(
-                          homeCubit
-                              .getCategories()[homeCubit.selectedCategory]
-                              .length,
-                          (index) => Product(
-                              product: homeCubit.getCategories()[
-                                  homeCubit.selectedCategory][index]),
-                        ),
-                      ),
+                      builder: (context) {
+                        MainCubit.get(context).getCart();
+                        MainCubit.get(context).inFav();
+                        MainCubit.get(context).inCart();
+                        return GridView.count(
+                          crossAxisCount: 2,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisSpacing: 5.w,
+                          mainAxisSpacing: 2.h,
+                          childAspectRatio: 1 / 1.8,
+                          scrollDirection: Axis.vertical,
+                          children: List.generate(
+                            homeCubit
+                                .getCategories()[homeCubit.selectedCategory]
+                                .length,
+                                (index) => Product(
+                                product: homeCubit.getCategories()[
+                                homeCubit.selectedCategory][index]),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

@@ -20,13 +20,13 @@ class MainCubit extends Cubit<MainStates> {
   int get selectedIndex => _selectedIndex;
 
   void changeBottomNav(int index) {
-    if(index == 1){
+    if (index == 1) {
       getFavorites();
     }
     _selectedIndex = index;
     emit(ChangeBottomNavState());
   }
-
+// <----------------------------------UserData--------------------------------->
   UserModel? user;
   void getUserData() {
     emit(GetUserLoadingState());
@@ -37,26 +37,6 @@ class MainCubit extends Cubit<MainStates> {
     }).catchError((error) {
       emit(GetUserErrorState());
       print(error.toString());
-    });
-  }
-
-  List<ProductModel> favorites = [];
-  void getFavorites() {
-    emit(GetFavLoadingState());
-    FirebaseFirestore.instance
-        .collection('Users')
-        .doc(user!.uId)
-        .collection('Favorites')
-        .get()
-        .then((value) {
-          favorites = [];
-          for (var element in value.docs) {
-            favorites.add(ProductModel.fromJson(element.data()));
-          }
-          emit(GetFavSuccessState());
-    }).catchError((error){
-      print(error.toString());
-      emit(GetFavErrorState());
     });
   }
 
@@ -112,4 +92,150 @@ class MainCubit extends Cubit<MainStates> {
       },
     );
   }
+  // <------------------------------------------------------------------------->
+
+  // <--------------------------------Favorites-------------------------------->
+  List<ProductModel> favorites = [];
+  void getFavorites() {
+    emit(GetFavLoadingState());
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uId)
+        .collection('Favorites')
+        .get()
+        .then((value) {
+      favorites = [];
+      for (var element in value.docs) {
+        favorites.add(ProductModel.fromJson(element.data()));
+      }
+      emit(GetFavSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(GetFavErrorState());
+    });
+  }
+
+  List<int> inFavorites = [];
+  void inFav() {
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uId)
+        .collection('Favorites')
+        .snapshots().listen((value) {
+          inFavorites = [];
+          for (var element in value.docs) {
+            inFavorites.add(element.data()['id']);
+          }
+    });
+  }
+
+  void updateFav(ProductModel product) {
+    emit(UpdateFavLoadingState());
+    if(inFavorites.contains(product.id)){
+      FirebaseFirestore.instance
+          .collection('Users')
+          .doc(user!.uId)
+          .collection('Favorites')
+          .doc('${product.id}')
+          .delete()
+          .then(
+            (value) {
+          emit(UpdateFavSuccessState());
+        },
+      ).catchError((error) {
+        emit(UpdateFavErrorState());
+        print(error.toString());
+      });
+    }else{
+      FirebaseFirestore.instance
+          .collection('Users')
+          .doc(user!.uId)
+          .collection('Favorites')
+          .doc('${product.id}')
+          .set(product.toJson())
+          .then(
+            (value) {
+          emit(UpdateFavSuccessState());
+        },
+      ).catchError((error) {
+        emit(UpdateFavErrorState());
+        print(error.toString());
+      });
+    }
+    getFavorites();
+  }
+  // <------------------------------------------------------------------------->
+
+  // <--------------------------------Favorites-------------------------------->
+  List<ProductModel> cart = [];
+  void getCart() {
+    emit(GetCartLoadingState());
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uId)
+        .collection('Cart')
+        .get()
+        .then((value) {
+      cart = [];
+      for (var element in value.docs) {
+        cart.add(ProductModel.fromJson(element.data()));
+      }
+      emit(GetCartSuccessState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(GetCartErrorState());
+    });
+  }
+
+  List<int> inCartItems = [];
+  void inCart() {
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uId)
+        .collection('Cart')
+        .snapshots().listen((value) {
+      inCartItems = [];
+      for (var element in value.docs) {
+        inCartItems.add(element.data()['id']);
+      }
+    });
+  }
+
+  void updateCart(ProductModel product) {
+    emit(UpdateCartLoadingState());
+    if(inCartItems.contains(product.id)){
+      FirebaseFirestore.instance
+          .collection('Users')
+          .doc(user!.uId)
+          .collection('Cart')
+          .doc('${product.id}')
+          .delete()
+          .then(
+            (value) {
+          emit(UpdateCartSuccessState());
+        },
+      ).catchError((error) {
+        emit(UpdateCartErrorState());
+        print(error.toString());
+      });
+    }else{
+      FirebaseFirestore.instance
+          .collection('Users')
+          .doc(user!.uId)
+          .collection('Cart')
+          .doc('${product.id}')
+          .set(product.toJson())
+          .then(
+            (value) {
+          emit(UpdateCartSuccessState());
+        },
+      ).catchError((error) {
+        emit(UpdateCartErrorState());
+        print(error.toString());
+      });
+    }
+    getCart();
+  }
+  // <------------------------------------------------------------------------->
+
 }
