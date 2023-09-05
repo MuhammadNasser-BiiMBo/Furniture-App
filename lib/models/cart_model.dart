@@ -1,15 +1,16 @@
 
-class ProductModel {
+class CartModel {
   int? id;
   String? name;
   dynamic price;
+  int? quantity;
   String? img;
   String? desc;
   int? reviews;
   dynamic rate;
 
 
-  ProductModel({
+  CartModel({
     this.name,
     this.id,
     this.price,
@@ -17,10 +18,10 @@ class ProductModel {
     this.img,
     this.rate,
     this.reviews,
-
+    this.quantity,
   });
 
-  ProductModel.fromJson(Map<String, dynamic> json) {
+  CartModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     price = json['price'];
@@ -28,6 +29,7 @@ class ProductModel {
     img = json['img'];
     rate = json['rate'];
     reviews = json['reviews'];
+    quantity = json['quantity'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +41,7 @@ class ProductModel {
       'rate': rate,
       'img': img,
       'reviews': reviews,
+      'quantity': quantity,
     };
   }
 }

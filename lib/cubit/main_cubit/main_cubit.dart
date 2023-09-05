@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:furnitured/models/cart_model.dart';
 import 'package:furnitured/widgets/big_text.dart';
 import 'package:sizer/sizer.dart';
 import '../../cache_helper/cache_helper.dart';
@@ -26,6 +27,7 @@ class MainCubit extends Cubit<MainStates> {
     _selectedIndex = index;
     emit(ChangeBottomNavState());
   }
+
 // <----------------------------------UserData--------------------------------->
   UserModel? user;
   void getUserData() {
@@ -121,17 +123,18 @@ class MainCubit extends Cubit<MainStates> {
         .collection('Users')
         .doc(user!.uId)
         .collection('Favorites')
-        .snapshots().listen((value) {
-          inFavorites = [];
-          for (var element in value.docs) {
-            inFavorites.add(element.data()['id']);
-          }
+        .snapshots()
+        .listen((value) {
+      inFavorites = [];
+      for (var element in value.docs) {
+        inFavorites.add(element.data()['id']);
+      }
     });
   }
 
   void updateFav(ProductModel product) {
     emit(UpdateFavLoadingState());
-    if(inFavorites.contains(product.id)){
+    if (inFavorites.contains(product.id)) {
       FirebaseFirestore.instance
           .collection('Users')
           .doc(user!.uId)
@@ -139,14 +142,14 @@ class MainCubit extends Cubit<MainStates> {
           .doc('${product.id}')
           .delete()
           .then(
-            (value) {
+        (value) {
           emit(UpdateFavSuccessState());
         },
       ).catchError((error) {
         emit(UpdateFavErrorState());
         print(error.toString());
       });
-    }else{
+    } else {
       FirebaseFirestore.instance
           .collection('Users')
           .doc(user!.uId)
@@ -154,7 +157,7 @@ class MainCubit extends Cubit<MainStates> {
           .doc('${product.id}')
           .set(product.toJson())
           .then(
-            (value) {
+        (value) {
           emit(UpdateFavSuccessState());
         },
       ).catchError((error) {
@@ -167,23 +170,20 @@ class MainCubit extends Cubit<MainStates> {
   // <------------------------------------------------------------------------->
 
   // <--------------------------------Favorites-------------------------------->
-  List<ProductModel> cart = [];
+  List<CartModel> cart = [];
   void getCart() {
     emit(GetCartLoadingState());
     FirebaseFirestore.instance
         .collection('Users')
         .doc(user!.uId)
         .collection('Cart')
-        .get()
-        .then((value) {
+        .snapshots()
+        .listen((value) {
       cart = [];
       for (var element in value.docs) {
-        cart.add(ProductModel.fromJson(element.data()));
+        cart.add(CartModel.fromJson(element.data()));
       }
       emit(GetCartSuccessState());
-    }).catchError((error) {
-      print(error.toString());
-      emit(GetCartErrorState());
     });
   }
 
@@ -193,7 +193,8 @@ class MainCubit extends Cubit<MainStates> {
         .collection('Users')
         .doc(user!.uId)
         .collection('Cart')
-        .snapshots().listen((value) {
+        .snapshots()
+        .listen((value) {
       inCartItems = [];
       for (var element in value.docs) {
         inCartItems.add(element.data()['id']);
@@ -201,9 +202,9 @@ class MainCubit extends Cubit<MainStates> {
     });
   }
 
-  void updateCart(ProductModel product) {
+  void updateCart({required product, int? quantity}) {
     emit(UpdateCartLoadingState());
-    if(inCartItems.contains(product.id)){
+    if (inCartItems.contains(product.id)) {
       FirebaseFirestore.instance
           .collection('Users')
           .doc(user!.uId)
@@ -211,22 +212,32 @@ class MainCubit extends Cubit<MainStates> {
           .doc('${product.id}')
           .delete()
           .then(
-            (value) {
+        (value) {
           emit(UpdateCartSuccessState());
         },
       ).catchError((error) {
         emit(UpdateCartErrorState());
         print(error.toString());
       });
-    }else{
+    } else {
+      CartModel cartModel = CartModel(
+        id: product.id,
+        rate: product.rate,
+        name: product.name,
+        price: product.price,
+        img: product.img,
+        desc: product.desc,
+        reviews: product.reviews,
+        quantity: quantity,
+      );
       FirebaseFirestore.instance
           .collection('Users')
           .doc(user!.uId)
           .collection('Cart')
-          .doc('${product.id}')
-          .set(product.toJson())
+          .doc('${cartModel.id}')
+          .set(cartModel.toJson())
           .then(
-            (value) {
+        (value) {
           emit(UpdateCartSuccessState());
         },
       ).catchError((error) {
@@ -236,6 +247,39 @@ class MainCubit extends Cubit<MainStates> {
     }
     getCart();
   }
-  // <------------------------------------------------------------------------->
 
+  void updateCartItemQuantity({required product, required int quantity}) {
+    emit(UpdateQuantityLoadingState());
+    CartModel cartItem = CartModel(
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      img: product.img,
+      desc: product.desc,
+      rate: product.rate,
+      reviews: product.reviews,
+      quantity: quantity
+    );
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uId)
+        .collection('Cart')
+        .doc('${product.id}')
+        .update(cartItem.toJson())
+        .then((value) {
+          emit(UpdateQuantitySuccessState());
+    }).catchError((error){
+      print(error.toString());
+      emit(UpdateQuantityErrorState());
+    });
+  }
+
+  int cartTotal(){
+    int total = 0;
+    for (var element in cart) {
+      total+= (element.price as int) * (element.quantity as int);
+    }
+    return total;
+  }
+  // <------------------------------------------------------------------------->
 }

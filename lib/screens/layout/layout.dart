@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:furnitured/constants/colors.dart';
 import 'package:furnitured/constants/components.dart';
+import 'package:furnitured/constants/constants.dart';
 import 'package:sizer/sizer.dart';
 import '../../cubit/main_cubit/main_cubit.dart';
 import '../../cubit/main_cubit/main_states.dart';
@@ -11,15 +12,18 @@ class AppLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(Constants.uId != null){
+      MainCubit.get(context).getUserData();
+    }
     return BlocConsumer<MainCubit,MainStates>(
       listener:(context,state){} ,
       builder:(context,state){
 
         // cubit instance
-        var cubit = MainCubit.get(context);
+        var mainCubit = MainCubit.get(context);
 
         return Scaffold(
-          body: pages[cubit.selectedIndex],
+          body: pages[mainCubit.selectedIndex],
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.white,
             type: BottomNavigationBarType.fixed,
@@ -29,13 +33,13 @@ class AppLayout extends StatelessWidget {
             showUnselectedLabels: false,
             showSelectedLabels: false,
             unselectedFontSize: 0,
-            currentIndex: cubit.selectedIndex,
+            currentIndex: mainCubit.selectedIndex,
             enableFeedback: true,
-            onTap: cubit.changeBottomNav,
+            onTap: mainCubit.changeBottomNav,
             items: List.generate(
               4,
                   (index) => BottomNavigationBarItem(
-                icon: cubit.selectedIndex==index?Icon(enableIcons[index]):Icon(disableIcons[index]),
+                icon: mainCubit.selectedIndex==index?Icon(enableIcons[index]):Icon(disableIcons[index]),
                 label: navLabels[index],
               ),
             ),

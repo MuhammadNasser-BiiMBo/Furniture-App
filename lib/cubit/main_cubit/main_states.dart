@@ -22,3 +22,8 @@ class GetCartErrorState extends MainStates {}
 class UpdateCartLoadingState extends MainStates {}
 class UpdateCartSuccessState extends MainStates {}
 class UpdateCartErrorState extends MainStates {}
+
+class UpdateQuantityLoadingState extends MainStates{}
+class UpdateQuantitySuccessState extends MainStates{}
+class UpdateQuantityErrorState extends MainStates{}
+

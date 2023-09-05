@@ -26,11 +26,31 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int selectedColor = 0;
   int quantity = 0;
+  // bool inCart = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    MainCubit.get(context).cart.forEach((element) {
+      if (element.id == widget.product.id) {
+        quantity = element.quantity!;
+      }
+    });
+    super.initState();
+  }
+  bool inCart(){
+    bool inCart = false;
+    MainCubit.get(context).cart.forEach((element) {
+      if(element.id == widget.product.id){
+        inCart = true;
+      }
+    });
+    return inCart;
+  }
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MainCubit,MainStates>(
-      listener: (context,state){},
-      builder:(context,state) {
+    return BlocConsumer<MainCubit, MainStates>(
+      listener: (context, state) {},
+      builder: (context, state) {
         var mainCubit = MainCubit.get(context);
         var inFavorites = mainCubit.inFavorites.contains(widget.product.id);
         return Scaffold(
@@ -106,7 +126,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: List.generate(
                             3,
-                                (index) => GestureDetector(
+                            (index) => GestureDetector(
                               onTap: () {
                                 setState(() {
                                   selectedColor = index;
@@ -176,14 +196,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3.sp),
+                                    borderRadius: BorderRadius.circular(7.sp),
                                     color: AppColors.appBlurGrey,
                                   ),
                                   width: 24.sp,
                                   height: 24.sp,
                                   padding: EdgeInsets.all(2.sp),
-                                  child:
-                                  const Image(image: Svg(Constants.decrease)),
+                                  child: const Image(
+                                      image: Svg(Constants.decrease)),
                                 ),
                               ),
                               SizedBox(width: 5.w),
@@ -204,14 +224,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3.sp),
+                                    borderRadius: BorderRadius.circular(7.sp),
                                     color: AppColors.appBlurGrey,
                                   ),
                                   width: 24.sp,
                                   height: 24.sp,
                                   padding: EdgeInsets.all(2.sp),
-                                  child:
-                                  const Image(image: Svg(Constants.increase)),
+                                  child: const Image(
+                                      image: Svg(Constants.increase)),
                                 ),
                               ),
                               SizedBox(width: 4.w),
@@ -268,19 +288,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: (){
+                    onTap: () {
                       mainCubit.updateFav(widget.product);
                     },
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10.sp),
-                        color: inFavorites ? AppColors.appPrimary : AppColors.appCat,
-
+                        color: inFavorites
+                            ? AppColors.appPrimary
+                            : AppColors.appCat,
                       ),
                       child: Padding(
                         padding: EdgeInsets.all(14.sp),
                         child: Image(
-                          color: inFavorites ? Colors.white : AppColors.appPrimary,
+                          color:
+                              inFavorites ? Colors.white : AppColors.appPrimary,
                           image: const Svg(
                             Constants.fav,
                           ),
@@ -290,7 +312,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                   AppButton(
                     text: 'Add to cart',
-                    onPressed: () {},
+                    onPressed: () {
+                      if(inCart()){
+                        if (quantity > 0) {
+                          mainCubit.updateCartItemQuantity(
+                            product: widget.product,
+                            quantity: quantity,
+                          );
+                        }else{
+                          mainCubit.updateCart(product: widget.product,quantity: quantity);
+                        }
+                      }else{
+                        if(quantity>0){
+                          mainCubit.updateCart(product: widget.product,quantity: quantity);
+                        }
+                      }
+                    },
                     buttonHeight: 42.sp,
                     buttonWidth: 68.w,
                   ),
@@ -299,7 +336,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ),
         );
-      } ,
+      },
     );
   }
 }

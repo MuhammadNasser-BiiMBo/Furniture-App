@@ -5,7 +5,9 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:furnitured/cubit/main_cubit/main_cubit.dart';
 import 'package:furnitured/widgets/app_button.dart';
 import 'package:furnitured/widgets/big_text.dart';
+import 'package:furnitured/widgets/cart_icon.dart';
 import 'package:furnitured/widgets/favorites_widget.dart';
+import 'package:furnitured/widgets/search_icon.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/colors.dart';
 import '../../constants/constants.dart';
@@ -27,13 +29,7 @@ class FavoritesScreen extends StatelessWidget {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InkWell(
-                    onTap: () {},
-                    child: Padding(
-                      padding: EdgeInsets.all(8.sp),
-                      child: const Image(image: Svg(Constants.search)),
-                    ),
-                  ),
+                  const SearchButton(),
                   BigText(
                     text: 'Favorites',
                     weight: FontWeight.w500,
@@ -41,15 +37,7 @@ class FavoritesScreen extends StatelessWidget {
                     spacing: 0,
                     color: AppColors.appPrimary,
                   ),
-                  InkWell(
-                    onTap: () {},
-                    child: Padding(
-                      padding: EdgeInsets.all(8.sp),
-                      child: const Image(
-                        image: Svg(Constants.cart),
-                      ),
-                    ),
-                  ),
+                  const CartButton(),
                 ],
               )),
           body: ConditionalBuilder(
@@ -64,7 +52,7 @@ class FavoritesScreen extends StatelessWidget {
               ),
             ),
             builder: (context) => Padding(
-              padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Stack(
                 children: [
                   ListView.separated(
@@ -83,7 +71,7 @@ class FavoritesScreen extends StatelessWidget {
                     itemCount: favorites.length,
                   ),
                   Positioned(
-                    bottom: 1.h,
+                    bottom: 2.h,
                     child: AppButton(
                         text: 'Add all to my cart',
                         onPressed: () {},

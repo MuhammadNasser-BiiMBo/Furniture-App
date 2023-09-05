@@ -9,7 +9,9 @@ import 'package:furnitured/cubit/home_cubit/home_cubit.dart';
 import 'package:furnitured/cubit/home_cubit/home_states.dart';
 import 'package:furnitured/cubit/main_cubit/main_cubit.dart';
 import 'package:furnitured/widgets/big_text.dart';
+import 'package:furnitured/widgets/cart_icon.dart';
 import 'package:furnitured/widgets/product.dart';
+import 'package:furnitured/widgets/search_icon.dart';
 import 'package:furnitured/widgets/small_text.dart';
 import 'package:sizer/sizer.dart';
 
@@ -23,9 +25,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    // if (Constants.uId != null) {
-    //   MainCubit.get(context).getUserData();
-    // }
     return BlocConsumer<HomeCubit, HomeStates>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -39,13 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InkWell(
-                    onTap: () {},
-                    child: Padding(
-                      padding: EdgeInsets.all(8.sp),
-                      child: const Image(image: Svg(Constants.search)),
-                    ),
-                  ),
+                  const SearchButton(),
                   BigText(
                     text: 'Furnitured',
                     weight: FontWeight.w500,
@@ -53,15 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     spacing: 0,
                     color: AppColors.appPrimary,
                   ),
-                  InkWell(
-                    onTap: () {},
-                    child: Padding(
-                      padding: EdgeInsets.all(8.sp),
-                      child: const Image(
-                        image: Svg(Constants.cart),
-                      ),
-                    ),
-                  ),
+                  const CartButton(),
                 ],
               ),
             ),

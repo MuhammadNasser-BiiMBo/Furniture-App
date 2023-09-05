@@ -51,7 +51,7 @@ class Product extends StatelessWidget {
                       padding: EdgeInsets.all(8.sp),
                       child: InkWell(
                         onTap: () {
-                          mainCubit.updateCart(product);
+                          mainCubit.updateCart(product: product, quantity: 1);
                         },
                         child: Container(
                           padding: EdgeInsets.all(4.sp),
@@ -59,7 +59,11 @@ class Product extends StatelessWidget {
                             color: const Color(0xFFb8b8b8),
                             borderRadius: BorderRadius.circular(7.sp),
                             boxShadow: [
-                              BoxShadow(blurRadius: 3.sp,color: Colors.black12,spreadRadius: 1)
+                              BoxShadow(
+                                blurRadius: 3.sp,
+                                color: Colors.black12,
+                                spreadRadius: 1,
+                              ),
                             ],
                           ),
                           child: Image.asset(
