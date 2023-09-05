@@ -2,7 +2,9 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:furnitured/constants/components.dart';
 import 'package:furnitured/cubit/main_cubit/main_cubit.dart';
+import 'package:furnitured/screens/product/product_details_screen.dart';
 import 'package:furnitured/widgets/app_button.dart';
 import 'package:furnitured/widgets/big_text.dart';
 import 'package:furnitured/widgets/cart_icon.dart';
@@ -57,8 +59,13 @@ class FavoritesScreen extends StatelessWidget {
                 children: [
                   ListView.separated(
                     itemBuilder: (context, index) {
-                      return FavWidget(
-                        product: favorites[index],
+                      return GestureDetector(
+                        onTap: (){
+                          navigateTo(context, ProductDetailsScreen(product: favorites[index]));
+                        },
+                        child: FavWidget(
+                          product: favorites[index],
+                        ),
                       );
                     },
                     separatorBuilder: (context, index) {

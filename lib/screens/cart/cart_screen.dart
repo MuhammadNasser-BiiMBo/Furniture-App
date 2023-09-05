@@ -1,6 +1,9 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:furnitured/constants/components.dart';
+import 'package:furnitured/models/product_model.dart';
+import 'package:furnitured/screens/product/product_details_screen.dart';
 import 'package:furnitured/widgets/back_icon.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/colors.dart';
@@ -56,8 +59,22 @@ class CartScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 0.h, horizontal: 5.w),
               child: ListView.separated(
                 itemBuilder: (context, index) {
-                  return CartWidget(
-                    product: cartItems[index],
+                  return GestureDetector(
+                    onTap: (){
+                      ProductModel model = ProductModel(
+                        id: cartItems[index].id,
+                        name: cartItems[index].name,
+                        price: cartItems[index].price,
+                        img: cartItems[index].img,
+                        reviews: cartItems[index].reviews,
+                        desc: cartItems[index].desc,
+                        rate: cartItems[index].rate,
+                      );
+                      navigateTo(context, ProductDetailsScreen(product: model));
+                    },
+                    child: CartWidget(
+                      product: cartItems[index],
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) {
@@ -85,8 +102,20 @@ class CartScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      BigText(text: 'Total',spacing: 0,color: AppColors.appGrey,weight: FontWeight.w700,size: 16.sp),
-                      BigText(text: '\$ ${mainCubit.cartTotal()}.00',spacing: 0,color: AppColors.appPrimary,weight: FontWeight.w700,size: 17.sp,),
+                      BigText(
+                        text: 'Total',
+                        spacing: 0,
+                        color: AppColors.appGrey,
+                        weight: FontWeight.w700,
+                        size: 16.sp,
+                      ),
+                      BigText(
+                        text: '\$ ${mainCubit.cartTotal()}.00',
+                        spacing: 0,
+                        color: AppColors.appPrimary,
+                        weight: FontWeight.w700,
+                        size: 17.sp,
+                      ),
                     ],
                   ),
                 ),
