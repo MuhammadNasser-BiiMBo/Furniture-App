@@ -60,7 +60,7 @@ class CartScreen extends StatelessWidget {
               child: ListView.separated(
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       ProductModel model = ProductModel(
                         id: cartItems[index].id,
                         name: cartItems[index].name,
@@ -89,11 +89,22 @@ class CartScreen extends StatelessWidget {
             ),
           ),
           bottomNavigationBar: Container(
+            clipBehavior: Clip.antiAliasWithSaveLayer,
             height: 20.h,
             padding: EdgeInsets.symmetric(
               horizontal: 5.w,
               vertical: 3.h,
             ),
+            decoration: BoxDecoration(
+                color: AppColors.appBlurGrey,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(
+                    40.sp,
+                  ),
+                  topRight: Radius.circular(
+                    40.sp,
+                  ),
+                )),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
