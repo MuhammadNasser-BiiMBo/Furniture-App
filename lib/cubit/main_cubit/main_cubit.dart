@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:furnitured/models/address_model.dart';
 import 'package:furnitured/models/cart_model.dart';
+import 'package:furnitured/screens/layout/favorites_screen.dart';
 import 'package:furnitured/widgets/big_text.dart';
 import 'package:sizer/sizer.dart';
 import '../../cache_helper/cache_helper.dart';
@@ -251,15 +253,14 @@ class MainCubit extends Cubit<MainStates> {
   void updateCartItemQuantity({required product, required int quantity}) {
     emit(UpdateQuantityLoadingState());
     CartModel cartItem = CartModel(
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      img: product.img,
-      desc: product.desc,
-      rate: product.rate,
-      reviews: product.reviews,
-      quantity: quantity
-    );
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        img: product.img,
+        desc: product.desc,
+        rate: product.rate,
+        reviews: product.reviews,
+        quantity: quantity);
     FirebaseFirestore.instance
         .collection('Users')
         .doc(user!.uId)
@@ -267,19 +268,71 @@ class MainCubit extends Cubit<MainStates> {
         .doc('${product.id}')
         .update(cartItem.toJson())
         .then((value) {
-          emit(UpdateQuantitySuccessState());
-    }).catchError((error){
+      emit(UpdateQuantitySuccessState());
+    }).catchError((error) {
       print(error.toString());
       emit(UpdateQuantityErrorState());
     });
   }
 
-  int cartTotal(){
+  int cartTotal() {
     int total = 0;
     for (var element in cart) {
-      total+= (element.price as int) * (element.quantity as int);
+      total += (element.price as int) * (element.quantity as int);
     }
     return total;
   }
+
+  void addAllToCart() {
+    emit(AddAllToCartLoadingState());
+    for (var product in favorites) {
+      if (!inCartItems.contains(product.id)) {
+        CartModel cartModel = CartModel(
+          id: product.id,
+          rate: product.rate,
+          name: product.name,
+          price: product.price,
+          img: product.img,
+          desc: product.desc,
+          reviews: product.reviews,
+          quantity: 1,
+        );
+        FirebaseFirestore.instance
+            .collection('Users')
+            .doc(user!.uId)
+            .collection('Cart')
+            .doc(cartModel.id.toString())
+            .set(cartModel.toJson());
+      }
+    }
+    emit(AddAllToCartSuccessState());
+  }
   // <------------------------------------------------------------------------->
+
+  // <-----------------------------Address------------------------------------->
+
+  Future<void> saveUserAddress(AddressModel addressModel) async {
+    emit(SaveAddressLoadingState());
+    UserModel userModel = UserModel(
+      name: user!.name,
+      uId: user!.uId,
+      reviews: user!.reviews,
+      phone: user!.phone,
+      orders: user!.orders,
+      image: user!.image,
+      email: user!.email,
+      address: addressModel,
+    );
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uId)
+        .set(userModel.toJson())
+        .then((value) {
+          user!.address = addressModel;
+          emit(SaveAddressSuccessState());
+    }).catchError((error){
+      emit(SaveAddressErrorState());
+      print(error.toString());
+    });
+  }
 }

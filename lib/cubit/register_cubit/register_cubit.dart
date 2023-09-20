@@ -55,7 +55,7 @@ class RegisterCubit extends Cubit<RegisterStates> {
       email: email,
       image: '',
       uId: uId,
-      address: '',
+      address: null,
       orders: 0,
       phone: phone,
       reviews: 0,

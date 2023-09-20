@@ -41,8 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SearchButton(),
                   BigText(
                     text: 'Furnitured',
-                    weight: FontWeight.w500,
-                    size: 18.sp,
+                    weight: FontWeight.w600,
+                    size: 16.sp,
                     spacing: 0,
                     color: AppColors.appPrimary,
                   ),

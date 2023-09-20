@@ -27,3 +27,13 @@ class UpdateQuantityLoadingState extends MainStates{}
 class UpdateQuantitySuccessState extends MainStates{}
 class UpdateQuantityErrorState extends MainStates{}
 
+
+
+class AddAllToCartLoadingState extends MainStates{}
+class AddAllToCartSuccessState extends MainStates{}
+class AddAllToCartErrorState extends MainStates{}
+
+class SaveAddressLoadingState extends MainStates{}
+class SaveAddressSuccessState extends MainStates{}
+class SaveAddressErrorState extends MainStates{}
+

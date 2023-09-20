@@ -59,6 +59,8 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               useMaterial3: true,
+              scaffoldBackgroundColor: Colors.white,
+              appBarTheme: const AppBarTheme(color: Colors.white),
             ),
             home: startWidget,
           ),

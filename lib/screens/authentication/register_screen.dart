@@ -10,7 +10,7 @@ import 'package:furnitured/screens/authentication/login_screen.dart';
 import 'package:furnitured/screens/layout/layout.dart';
 import 'package:furnitured/widgets/app_button.dart';
 import 'package:furnitured/widgets/big_text.dart';
-import 'package:furnitured/widgets/default_form_field.dart';
+import 'package:furnitured/widgets/auth_form_field.dart';
 import 'package:furnitured/widgets/default_text_button.dart';
 import 'package:furnitured/widgets/small_text.dart';
 import 'package:sizer/sizer.dart';
@@ -103,7 +103,7 @@ class RegisterScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             // name
-                            DefaultFormField(
+                            AuthFormField(
                               controller: nameController,
                               type: TextInputType.name,
                               label: 'Name',
@@ -118,7 +118,7 @@ class RegisterScreen extends StatelessWidget {
                               height: 3.h,
                             ),
                             // email
-                            DefaultFormField(
+                            AuthFormField(
                               controller: emailController,
                               type: TextInputType.emailAddress,
                               label: 'Email',
@@ -132,7 +132,7 @@ class RegisterScreen extends StatelessWidget {
                               height: 3.h,
                             ),
                             // password
-                            DefaultFormField(
+                            AuthFormField(
                               controller: passwordController,
                               type: TextInputType.visiblePassword,
                               label: 'Password',
@@ -151,7 +151,7 @@ class RegisterScreen extends StatelessWidget {
                               height: 3.h,
                             ),
                             // phone
-                            DefaultFormField(
+                            AuthFormField(
                               controller: phoneController,
                               type: TextInputType.phone,
                               label: 'Phone',

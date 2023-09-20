@@ -1,10 +1,12 @@
+import 'package:furnitured/models/address_model.dart';
+
 class UserModel {
   String? name;
   String? email;
   String? phone;
   String? uId;
   String? image;
-  String? address;
+  AddressModel? address;
   int? orders;
   int? reviews;
   UserModel({
@@ -24,7 +26,7 @@ class UserModel {
     phone = json['phone'];
     uId = json['uId'];
     image = json['image'];
-    address = json['address'];
+    address = AddressModel.fromJson(json['address']);
     reviews = json['reviews'];
     orders = json['orders'];
   }
@@ -36,7 +38,7 @@ class UserModel {
       'phone':phone,
       'uId':uId,
       'image':image,
-      'address':address,
+      'address':address?.toJson(),
       'reviews':reviews,
       'orders':orders,
     };

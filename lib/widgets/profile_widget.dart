@@ -33,23 +33,26 @@ class ProfileWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                BigText(
-                  text: title,
-                  spacing: 0,
-                  weight: FontWeight.w700,
-                ),
-                SmallText(
-                  text: text,
-                  spacing: 0,
-                  height: 0,
-                  weight: FontWeight.w600,
-                  size: 10.sp,
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  BigText(
+                    text: title,
+                    spacing: 0,
+                    weight: FontWeight.w700,
+                  ),
+                  SmallText(
+                    text: text,
+                    spacing: 0,
+                    height: 0,
+                    weight: FontWeight.w600,
+                    size: 10.sp,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
             const Icon(Icons.arrow_forward_ios),
           ],

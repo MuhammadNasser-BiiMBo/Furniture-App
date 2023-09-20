@@ -10,7 +10,7 @@ import 'package:furnitured/screens/authentication/register_screen.dart';
 import 'package:furnitured/screens/layout/layout.dart';
 import 'package:furnitured/widgets/app_button.dart';
 import 'package:furnitured/widgets/big_text.dart';
-import 'package:furnitured/widgets/default_form_field.dart';
+import 'package:furnitured/widgets/auth_form_field.dart';
 import 'package:furnitured/widgets/default_text_button.dart';
 import 'package:sizer/sizer.dart';
 
@@ -106,7 +106,7 @@ class LoginScreen extends StatelessWidget {
                         key: formKey,
                         child: Column(
                           children: [
-                            DefaultFormField(
+                            AuthFormField(
                               controller: emailController,
                               type: TextInputType.emailAddress,
                               label: 'Email',
@@ -119,7 +119,7 @@ class LoginScreen extends StatelessWidget {
                             SizedBox(
                               height: 4.h,
                             ),
-                            DefaultFormField(
+                            AuthFormField(
                               controller: passwordController,
                               type: TextInputType.visiblePassword,
                               label: 'Password',

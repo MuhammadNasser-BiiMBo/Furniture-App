@@ -34,7 +34,7 @@ class CartScreen extends StatelessWidget {
                 BigText(
                   text: 'My cart',
                   weight: FontWeight.w600,
-                  size: 18.sp,
+                  size: 16.sp,
                   spacing: 0,
                   color: AppColors.appPrimary,
                 ),

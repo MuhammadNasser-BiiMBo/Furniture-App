@@ -1,9 +1,12 @@
+
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:furnitured/constants/components.dart';
 import 'package:furnitured/cubit/main_cubit/main_cubit.dart';
 import 'package:furnitured/cubit/main_cubit/main_states.dart';
+import 'package:furnitured/screens/shipping_address/shipping_address_screen.dart';
 import 'package:furnitured/widgets/profile_widget.dart';
 import 'package:furnitured/widgets/small_text.dart';
 import 'package:sizer/sizer.dart';
@@ -22,10 +25,8 @@ class ProfileScreen extends StatelessWidget {
         var mainCubit = MainCubit.get(context);
         var user = mainCubit.user;
         return Scaffold(
-          backgroundColor: Colors.white,
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -34,8 +35,8 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 BigText(
                   text: 'Profile',
-                  weight: FontWeight.w500,
-                  size: 18.sp,
+                  weight: FontWeight.w600,
+                  size: 16.sp,
                   spacing: 0,
                   color: AppColors.appPrimary,
                 ),
@@ -54,9 +55,9 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           body: ConditionalBuilder(
-            condition: user!=null,
-            builder:(context)=> Padding(
-              padding: EdgeInsets.symmetric(vertical: 2.h,horizontal: 5.w),
+            condition: user != null,
+            builder: (context) => Padding(
+              padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -67,36 +68,81 @@ class ProfileScreen extends StatelessWidget {
                       CircleAvatar(
                         radius: 35.sp,
                         backgroundColor: Colors.grey,
-                        child: user!.image!.isEmpty?Icon(
-                          Icons.person,
-                          size: 35.sp,
-                          color: AppColors.appPrimary,
-                        ):
-                        Image.network(user.image!,fit: BoxFit.fill,),
+                        child: user!.image!.isEmpty
+                            ? Icon(
+                                Icons.person,
+                                size: 35.sp,
+                                color: AppColors.appPrimary,
+                              )
+                            : Image.network(
+                                user.image!,
+                                fit: BoxFit.fill,
+                              ),
                       ),
-                      SizedBox(width: 5.w,),
+                      SizedBox(
+                        width: 5.w,
+                      ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          BigText(text: user.name!,spacing: 0,weight: FontWeight.w700,size: 15.sp,),
-                          SmallText(text: user.email!,spacing: 0,weight: FontWeight.w400,size: 11.sp),
+                          BigText(
+                            text: user.name!,
+                            spacing: 0,
+                            weight: FontWeight.w700,
+                            size: 15.sp,
+                          ),
+                          SmallText(
+                              text: user.email!,
+                              spacing: 0,
+                              weight: FontWeight.w400,
+                              size: 11.sp),
                         ],
                       )
                     ],
                   ),
-                  SizedBox(height: 4.h,),
-                  ProfileWidget(title: 'My Orders',text: 'Already have ${user.orders} orders',onPressed: (){},),
-                  SizedBox(height: 2.h,),
-                  ProfileWidget(title: 'Shipping Address',text: user.address!.isEmpty?'Please Add Your Location':user.address!,onPressed: (){},),
-                  SizedBox(height: 2.h,),
-                  ProfileWidget(title: 'My Reviews',text: 'Reviews for ${user.reviews} items',onPressed: (){},),
-                  SizedBox(height: 2.h,),
-                  ProfileWidget(title: 'Settings',text: 'Notification, Password, FAQ, Contact',onPressed: (){},),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  ProfileWidget(
+                    title: 'My Orders',
+                    text: 'Already have ${user.orders} orders',
+                    onPressed: () {},
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  ProfileWidget(
+                    title: 'Shipping Address',
+                    text: user.address==null
+                        ? 'Please Add Your Location'
+                        : '${user.address!.address}, ${user.address!.city}, ${user.address!.postalCode}, ${user.address!.district}, ${user.address!.country}',
+                    onPressed: () {
+                      navigateTo(context, ShippingAddressScreen());
+                    },
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  ProfileWidget(
+                    title: 'My Reviews',
+                    text: 'Reviews for ${user.reviews} items',
+                    onPressed: () {},
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  ProfileWidget(
+                    title: 'Settings',
+                    text: 'Notification, Password, FAQ, Contact',
+                    onPressed: () {},
+                  ),
                 ],
               ),
             ),
-            fallback: (context)=> const Center(child: CircularProgressIndicator(),),
+            fallback: (context) => const Center(
+              child: CircularProgressIndicator(),
+            ),
           ),
         );
       },

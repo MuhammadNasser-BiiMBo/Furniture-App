@@ -1,7 +1,6 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:furnitured/constants/components.dart';
 import 'package:furnitured/cubit/main_cubit/main_cubit.dart';
 import 'package:furnitured/screens/product/product_details_screen.dart';
@@ -12,7 +11,6 @@ import 'package:furnitured/widgets/favorites_widget.dart';
 import 'package:furnitured/widgets/search_icon.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/colors.dart';
-import '../../constants/constants.dart';
 import '../../cubit/main_cubit/main_states.dart';
 
 class FavoritesScreen extends StatelessWidget {
@@ -34,8 +32,8 @@ class FavoritesScreen extends StatelessWidget {
                   const SearchButton(),
                   BigText(
                     text: 'Favorites',
-                    weight: FontWeight.w500,
-                    size: 18.sp,
+                    weight: FontWeight.w600,
+                    size: 16.sp,
                     spacing: 0,
                     color: AppColors.appPrimary,
                   ),
@@ -81,7 +79,9 @@ class FavoritesScreen extends StatelessWidget {
                     bottom: 2.h,
                     child: AppButton(
                         text: 'Add all to my cart',
-                        onPressed: () {},
+                        onPressed: () {
+                          mainCubit.addAllToCart();
+                        },
                         buttonWidth: 90.w),
                   ),
                 ],
