@@ -1,5 +1,7 @@
 import 'package:furnitured/models/address_model.dart';
 
+import 'notification_model.dart';
+
 class UserModel {
   String? name;
   String? email;
@@ -9,6 +11,7 @@ class UserModel {
   AddressModel? address;
   int? orders;
   int? reviews;
+  NotificationSettingsModel? notificationSettings;
   UserModel({
     this.name,
     this.email,
@@ -18,6 +21,7 @@ class UserModel {
     this.address,
     this.reviews,
     this.orders,
+    this.notificationSettings,
   });
 
   UserModel.fromJson(Map<String,dynamic> json){
@@ -29,6 +33,7 @@ class UserModel {
     address = AddressModel.fromJson(json['address']);
     reviews = json['reviews'];
     orders = json['orders'];
+    notificationSettings = NotificationSettingsModel.fromJson(json['notificationSettings']);
   }
 
   Map<String,dynamic> toJson(){
@@ -38,9 +43,10 @@ class UserModel {
       'phone':phone,
       'uId':uId,
       'image':image,
-      'address':address?.toJson(),
+      'address':address!.toJson(),
       'reviews':reviews,
       'orders':orders,
+      'notificationSettings':notificationSettings!.toJson(),
     };
   }
 

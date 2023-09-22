@@ -22,7 +22,11 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LoginCubit, LoginStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is LoginSuccessState){
+          navigateTo(context, AppLayout());
+        }
+      },
       builder: (context, state) {
         var loginCubit = LoginCubit.get(context);
         return Scaffold(
@@ -155,9 +159,10 @@ class LoginScreen extends StatelessWidget {
                                   loginCubit.userLogin(
                                     email: emailController.text,
                                     password: passwordController.text,
-                                  ).then((value) {
-                                    navigateTo(context,const AppLayout());
-                                  });
+                                  );
+                                  //     .then((value) {
+                                  //   navigateTo(context,const AppLayout());
+                                  // })
                                 }
                               },
                             ),

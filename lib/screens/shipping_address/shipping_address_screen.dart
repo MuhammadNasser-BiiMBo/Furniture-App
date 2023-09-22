@@ -140,34 +140,35 @@ class ShippingAddressScreen extends StatelessWidget {
                         }
                       },
                     ),
-                    SizedBox(
-                      height: 3.h,
-                    ),
-                    AppButton(
-                      text: 'Save Address',
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          AddressModel addressModel = AddressModel(
-                            fullName: fullNameController.text,
-                            address: addressController.text,
-                            city: cityController.text,
-                            country: countryController.text,
-                            district: districtController.text,
-                            postalCode: zipCodeController.text,
-                          );
-                          mainCubit.saveUserAddress(addressModel).then((value) {
-                            Navigator.pop(context);
-                          });
-                        }
-                      },
-                      buttonWidth: 90.w,
-                      buttonHeight: 8.h,
-                    ),
                   ],
                 ),
               ),
             ),
           ),
+          bottomNavigationBar: Padding(
+            padding: EdgeInsets.symmetric(horizontal:5.w,vertical: 4.h),
+            child: AppButton(
+              text: 'Save Address',
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  AddressModel addressModel = AddressModel(
+                    fullName: fullNameController.text,
+                    address: addressController.text,
+                    city: cityController.text,
+                    country: countryController.text,
+                    district: districtController.text,
+                    postalCode: zipCodeController.text,
+                  );
+                  mainCubit.saveUserAddress(addressModel).then((value) {
+                    Navigator.pop(context);
+                  });
+                }
+              },
+              buttonWidth: 90.w,
+              buttonHeight: 8.h,
+            ),
+          ),
+
         );
       }
     );

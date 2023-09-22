@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:furnitured/models/address_model.dart';
 import 'package:furnitured/models/cart_model.dart';
-import 'package:furnitured/screens/layout/favorites_screen.dart';
+import 'package:furnitured/models/notification_model.dart';
 import 'package:furnitured/widgets/big_text.dart';
 import 'package:sizer/sizer.dart';
 import '../../cache_helper/cache_helper.dart';
@@ -32,10 +33,11 @@ class MainCubit extends Cubit<MainStates> {
 
 // <----------------------------------UserData--------------------------------->
   UserModel? user;
+  String? p;
   void getUserData() {
     emit(GetUserLoadingState());
-    String uId = Constants.uId!;
-    FirebaseFirestore.instance.collection('Users').doc(uId).get().then((value) {
+    // String uId = Constants.uId!;
+    FirebaseFirestore.instance.collection('Users').doc(Constants.uId!).get().then((value) {
       user = UserModel.fromJson(value.data()!);
       emit(GetUserSuccessState());
     }).catchError((error) {
@@ -328,21 +330,156 @@ class MainCubit extends Cubit<MainStates> {
         .doc(user!.uId)
         .set(userModel.toJson())
         .then((value) {
-          user!.address = addressModel;
-          emit(SaveAddressSuccessState());
-    }).catchError((error){
+      user!.address = addressModel;
+      emit(SaveAddressSuccessState());
+    }).catchError((error) {
       emit(SaveAddressErrorState());
       print(error.toString());
     });
   }
 
-
-
   // order
 
   int paymentMethodIndex = 0;
-  void changePaymentIndex(int index){
+  void changePaymentIndex(int index) {
     paymentMethodIndex = index;
     emit(ChangePaymentState());
+  }
+
+  Future<void> changePassword({
+    required String newPassword,
+    required String confirmPass,
+    required String email,
+    required String password,
+  })async {
+    emit(ChangePasswordLoadingState());
+    if (newPassword == confirmPass) {
+      FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+            print(value.user!.uid.toString());
+        FirebaseAuth.instance.currentUser
+            ?.updatePassword(newPassword)
+            .then((value) {
+          emit(ChangePasswordSuccessState());
+        }).catchError((error) {
+          emit(ChangePasswordErrorState());
+          print(error.toString());
+        });
+      });
+    } else {
+      emit(ChangePasswordErrorState());
+    }
+  }
+
+  void updateUserData(
+    String email,
+    String name,
+    String phone,
+  ) {
+    emit(UpdateUserDataLoadingState());
+    if (email != user!.email) {
+      FirebaseAuth.instance.currentUser?.updateEmail(email).then((value) {
+        UserModel userModel = UserModel(
+          name: name,
+          email: email,
+          phone: phone,
+          address: user!.address,
+          image: user!.image,
+          orders: user!.orders,
+          reviews: user!.reviews,
+          uId: user!.uId,
+        );
+        FirebaseFirestore.instance
+            .collection('Users')
+            .doc(user!.uId)
+            .update(userModel.toJson())
+            .then((value) => getUserData());
+        emit(UpdateUserDataSuccessState());
+      }).catchError((error) {
+        emit(UpdateUserDataErrorState());
+        print(error.toString());
+      });
+    } else {
+      UserModel userModel = UserModel(
+        name: name,
+        email: email,
+        phone: phone,
+        address: user!.address,
+        image: user!.image,
+        orders: user!.orders,
+        reviews: user!.reviews,
+        uId: user!.uId,
+        notificationSettings: NotificationSettingsModel(
+            user!.notificationSettings!.newArrivals,
+            user!.notificationSettings!.sales),
+      );
+      FirebaseFirestore.instance
+          .collection('Users')
+          .doc(user!.uId)
+          .update(userModel.toJson())
+          .then((value) {
+        getUserData();
+        emit(UpdateUserDataSuccessState());
+      }).catchError((error) {
+        emit(UpdateUserDataErrorState());
+      });
+    }
+  }
+
+  void changeNotificationSales(bool value) {
+    emit(UpdateUserDataLoadingState());
+    UserModel userModel = UserModel(
+      uId: user!.uId,
+      reviews: user!.reviews,
+      orders: user!.orders,
+      image: user!.image,
+      address: user!.address,
+      phone: user!.phone,
+      email: user!.email,
+      name: user!.name,
+      notificationSettings: NotificationSettingsModel(
+          user!.notificationSettings!.newArrivals, value),
+    );
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uId)
+        .update(userModel.toJson())
+        .then((value) {
+      getUserData();
+      emit(UpdateUserDataSuccessState());
+    }).catchError((error) {
+      emit(UpdateUserDataErrorState());
+      print(error.toString());
+    });
+  }
+
+  void changeNotificationArrivals(bool value) {
+    // user!.notificationSettings!.newArrivals = value;
+    emit(UpdateUserDataLoadingState());
+    UserModel userModel = UserModel(
+      uId: user!.uId,
+      reviews: user!.reviews,
+      orders: user!.orders,
+      image: user!.image,
+      address: user!.address,
+      phone: user!.phone,
+      email: user!.email,
+      name: user!.name,
+      notificationSettings:
+          NotificationSettingsModel(value, user!.notificationSettings!.sales),
+    );
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uId)
+        .update(userModel.toJson())
+        .then((value) {
+      getUserData();
+      emit(UpdateUserDataSuccessState());
+    }).catchError((error) {
+      // user!.notificationSettings!.newArrivals=!value;
+      emit(UpdateUserDataErrorState());
+      print(error.toString());
+    });
   }
 }

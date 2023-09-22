@@ -41,3 +41,13 @@ class SaveAddressErrorState extends MainStates{}
 
 class ChangePaymentState extends MainStates{}
 
+class ChangePasswordLoadingState extends MainStates{}
+class ChangePasswordSuccessState extends MainStates{}
+class ChangePasswordErrorState extends MainStates{}
+
+class UpdateUserDataLoadingState extends MainStates{}
+class UpdateUserDataSuccessState extends MainStates{}
+class UpdateUserDataErrorState extends MainStates{}
+
+
+

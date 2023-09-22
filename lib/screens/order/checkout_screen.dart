@@ -62,9 +62,8 @@ class CheckoutScreen extends StatelessWidget {
                       onTap: () {
                         navigateTo(context, ShippingAddressScreen());
                       },
-                      child: const Icon(
-                        Icons.mode_edit_outline,
-                        size: 28,
+                      child:  Image(
+                        image: Svg('assets/icons/edit.svg',size: Size(24.sp, 24.sp)),
                       ),
                     )
                   ],

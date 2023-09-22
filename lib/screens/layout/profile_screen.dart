@@ -6,6 +6,7 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:furnitured/constants/components.dart';
 import 'package:furnitured/cubit/main_cubit/main_cubit.dart';
 import 'package:furnitured/cubit/main_cubit/main_states.dart';
+import 'package:furnitured/screens/settings/settings_screen.dart';
 import 'package:furnitured/screens/shipping_address/shipping_address_screen.dart';
 import 'package:furnitured/widgets/profile_widget.dart';
 import 'package:furnitured/widgets/small_text.dart';
@@ -134,8 +135,10 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   ProfileWidget(
                     title: 'Settings',
-                    text: 'Notification, Password, FAQ, Contact',
-                    onPressed: () {},
+                    text: 'Personal Information, Notification, Password',
+                    onPressed: () {
+                      navigateTo(context, SettingsScreen());
+                    },
                   ),
                 ],
               ),

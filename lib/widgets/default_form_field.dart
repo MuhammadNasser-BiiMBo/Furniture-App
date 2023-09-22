@@ -3,6 +3,8 @@ import 'package:furnitured/constants/colors.dart';
 import 'package:sizer/sizer.dart';
 
 class DefaultFormField extends StatelessWidget {
+  bool isSetting;
+  bool hasShadow;
   final TextEditingController controller;
   final TextInputType type;
   Function? onSubmit;
@@ -27,6 +29,8 @@ class DefaultFormField extends StatelessWidget {
     this.suffix,
     this.suffixPressed,
     this.value,
+    this.isSetting = false,
+    this.hasShadow = false,
   });
 
   @override
@@ -34,16 +38,24 @@ class DefaultFormField extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 3.w,
-        vertical: 0.5.h,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(5.sp),
-        border: Border.all(
-          color: AppColors.appFormFieldBorder,
-          width: 2,
-        ),
-      ),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(5.sp),
+          border: isSetting
+              ? null
+              : Border.all(
+                  color: AppColors.appFormFieldBorder,
+                  width: 2,
+                ),
+          boxShadow: hasShadow
+              ? [
+                  BoxShadow(
+                    color: AppColors.shadowColor,
+                    blurRadius: 8.sp,
+                  )
+                ]
+              : null),
       child: TextFormField(
         onTapOutside: (event) => FocusScope.of(context).unfocus(),
         enabled: isClickable,
@@ -51,7 +63,7 @@ class DefaultFormField extends StatelessWidget {
         style: const TextStyle(
           fontFamily: 'nunito',
           fontSize: 20,
-          color: AppColors.appPrimary,
+          color: AppColors.appPrimary,fontWeight: FontWeight.w600
         ),
         controller: controller,
         keyboardType: type,
