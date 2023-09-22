@@ -37,3 +37,7 @@ class SaveAddressLoadingState extends MainStates{}
 class SaveAddressSuccessState extends MainStates{}
 class SaveAddressErrorState extends MainStates{}
 
+
+
+class ChangePaymentState extends MainStates{}
+

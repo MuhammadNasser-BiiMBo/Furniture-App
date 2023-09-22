@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:furnitured/constants/components.dart';
 import 'package:furnitured/models/product_model.dart';
+import 'package:furnitured/screens/order/checkout_screen.dart';
 import 'package:furnitured/screens/product/product_details_screen.dart';
+import 'package:furnitured/screens/shipping_address/shipping_address_screen.dart';
 import 'package:furnitured/widgets/back_icon.dart';
 import 'package:sizer/sizer.dart';
 import '../../constants/colors.dart';
@@ -135,7 +137,13 @@ class CartScreen extends StatelessWidget {
                   buttonWidth: 90.w,
                   buttonHeight: 45.sp,
                   radius: 5.sp,
-                  onPressed: cartItems.isEmpty ? null : () {},
+                  onPressed: cartItems.isEmpty ? null : () {
+                    if(mainCubit.user!.address!=null){
+                      navigateTo(context, CheckoutScreen());
+                    }else{
+                      navigateTo(context, ShippingAddressScreen());
+                    }
+                  },
                 ),
               ],
             ),

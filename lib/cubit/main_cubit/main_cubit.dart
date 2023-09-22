@@ -335,4 +335,14 @@ class MainCubit extends Cubit<MainStates> {
       print(error.toString());
     });
   }
+
+
+
+  // order
+
+  int paymentMethodIndex = 0;
+  void changePaymentIndex(int index){
+    paymentMethodIndex = index;
+    emit(ChangePaymentState());
+  }
 }

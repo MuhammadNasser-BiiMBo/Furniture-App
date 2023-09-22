@@ -71,3 +71,11 @@ List<Color> productColor = [
   AppColors.appBeige,
 ];
 
+List<String> paymentLabels = [
+  'Visa',
+  'Ref Code',
+];
+List<String> paymentImages = [
+  'assets/icons/visa.png',
+  'assets/icons/kiosk_payment.png',
+];
