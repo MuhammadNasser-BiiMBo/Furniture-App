@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:furnitured/constants/colors.dart';
 import 'package:sizer/sizer.dart';
 
@@ -14,11 +14,9 @@ class SearchButton extends StatelessWidget {
       onTap: () {},
       child: Padding(
         padding: EdgeInsets.all(8.sp),
-        child: const Image(
+        child: SvgPicture.asset(
           color: AppColors.appPrimary,
-          image: Svg(
-            Constants.search,
-          ),
+          Constants.search,
         ),
       ),
     );

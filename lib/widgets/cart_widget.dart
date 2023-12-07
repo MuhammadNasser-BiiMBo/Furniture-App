@@ -1,12 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:furnitured/constants/colors.dart';
 import 'package:furnitured/cubit/main_cubit/main_cubit.dart';
 import 'package:furnitured/cubit/main_cubit/main_states.dart';
 import 'package:furnitured/models/cart_model.dart';
-import 'package:furnitured/models/product_model.dart';
 import 'package:furnitured/widgets/big_text.dart';
 import 'package:furnitured/widgets/small_text.dart';
 import 'package:sizer/sizer.dart';
@@ -86,7 +85,7 @@ class CartWidget extends StatelessWidget {
                           height: 24.sp,
                           padding: EdgeInsets.all(2.sp),
                           child:
-                          const Image(image: Svg(Constants.decrease),),
+                          SvgPicture.asset(Constants.decrease),
                         ),
                       ),
                       SizedBox(width: 5.w),
@@ -112,7 +111,7 @@ class CartWidget extends StatelessWidget {
                           height: 24.sp,
                           padding: EdgeInsets.all(2.sp),
                           child:
-                          const Image(image: Svg(Constants.increase)),
+                          SvgPicture.asset(Constants.increase),
                         ),
                       ),
                       SizedBox(width: 4.w),

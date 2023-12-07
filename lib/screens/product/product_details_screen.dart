@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:furnitured/constants/colors.dart';
 import 'package:furnitured/constants/components.dart';
 import 'package:furnitured/constants/constants.dart';
@@ -37,15 +37,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     });
     super.initState();
   }
-  bool inCart(){
+
+  bool inCart() {
     bool inCart = false;
     MainCubit.get(context).cart.forEach((element) {
-      if(element.id == widget.product.id){
+      if (element.id == widget.product.id) {
         inCart = true;
       }
     });
     return inCart;
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MainCubit, MainStates>(
@@ -202,8 +204,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   width: 24.sp,
                                   height: 24.sp,
                                   padding: EdgeInsets.all(2.sp),
-                                  child: const Image(
-                                      image: Svg(Constants.decrease)),
+                                  child: SvgPicture.asset(Constants.decrease),
                                 ),
                               ),
                               SizedBox(width: 5.w),
@@ -230,8 +231,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   width: 24.sp,
                                   height: 24.sp,
                                   padding: EdgeInsets.all(2.sp),
-                                  child: const Image(
-                                      image: Svg(Constants.increase)),
+                                  child: SvgPicture.asset(Constants.increase),
                                 ),
                               ),
                               SizedBox(width: 4.w),
@@ -244,9 +244,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                       Row(
                         children: [
-                          const Image(
+                          SvgPicture.asset(
                             color: AppColors.appYellow,
-                            image: Svg(Constants.star),
+                            Constants.star,
                           ),
                           SizedBox(
                             width: 2.w,
@@ -300,12 +300,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                       child: Padding(
                         padding: EdgeInsets.all(14.sp),
-                        child: Image(
+                        child: SvgPicture.asset(
                           color:
                               inFavorites ? Colors.white : AppColors.appPrimary,
-                          image: const Svg(
-                            Constants.fav,
-                          ),
+                          Constants.fav,
                         ),
                       ),
                     ),
@@ -313,18 +311,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   AppButton(
                     text: 'Add to cart',
                     onPressed: () {
-                      if(inCart()){
+                      if (inCart()) {
                         if (quantity > 0) {
                           mainCubit.updateCartItemQuantity(
                             product: widget.product,
                             quantity: quantity,
                           );
-                        }else{
-                          mainCubit.updateCart(product: widget.product,quantity: quantity);
+                        } else {
+                          mainCubit.updateCart(
+                              product: widget.product, quantity: quantity);
                         }
-                      }else{
-                        if(quantity>0){
-                          mainCubit.updateCart(product: widget.product,quantity: quantity);
+                      } else {
+                        if (quantity > 0) {
+                          mainCubit.updateCart(
+                              product: widget.product, quantity: quantity);
                         }
                       }
                     },

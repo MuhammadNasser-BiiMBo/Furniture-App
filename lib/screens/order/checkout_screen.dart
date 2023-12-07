@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:furnitured/constants/components.dart';
 import 'package:furnitured/cubit/main_cubit/main_cubit.dart';
 import 'package:furnitured/cubit/main_cubit/main_states.dart';
@@ -62,8 +62,8 @@ class CheckoutScreen extends StatelessWidget {
                       onTap: () {
                         navigateTo(context, ShippingAddressScreen());
                       },
-                      child:  Image(
-                        image: Svg('assets/icons/edit.svg',size: Size(24.sp, 24.sp)),
+                      child:  SvgPicture.asset(
+                        'assets/icons/edit.svg',width:24.sp,
                       ),
                     )
                   ],
@@ -243,8 +243,8 @@ class CheckoutScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Image(
-                        image: Svg('assets/icons/dhl.svg'),
+                      SvgPicture.asset(
+                        'assets/icons/dhl.svg',
                       ),
                       SizedBox(
                         width: 10.w,

@@ -7,6 +7,7 @@ import 'package:furnitured/cubit/home_cubit/home_cubit.dart';
 import 'package:furnitured/cubit/observer/bloc_observer.dart';
 import 'package:furnitured/cubit/register_cubit/register_cubit.dart';
 import 'package:furnitured/screens/authentication/login_screen.dart';
+import 'package:furnitured/screens/boarding/boarding_screen.dart';
 import 'package:furnitured/screens/layout/layout.dart';
 import 'package:sizer/sizer.dart';
 import 'constants/constants.dart';
@@ -61,7 +62,7 @@ class MyApp extends StatelessWidget {
               scaffoldBackgroundColor: Colors.white,
               appBarTheme: const AppBarTheme(color: Colors.white),
             ),
-            home: startWidget,
+            home: BoardingScreen(),
           ),
         );
       },

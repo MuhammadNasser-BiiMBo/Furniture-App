@@ -2,7 +2,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:furnitured/constants/components.dart';
 import 'package:furnitured/cubit/main_cubit/main_cubit.dart';
 import 'package:furnitured/cubit/main_cubit/main_states.dart';
@@ -47,8 +47,8 @@ class ProfileScreen extends StatelessWidget {
                   },
                   child: Padding(
                     padding: EdgeInsets.all(8.sp),
-                    child: const Image(
-                      image: Svg(Constants.logout),
+                    child: SvgPicture.asset(
+                      Constants.logout,
                     ),
                   ),
                 ),

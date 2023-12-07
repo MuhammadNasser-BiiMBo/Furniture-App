@@ -7,14 +7,25 @@ import 'package:sizer/sizer.dart';
 import '../../cubit/main_cubit/main_cubit.dart';
 import '../../cubit/main_cubit/main_states.dart';
 
-class AppLayout extends StatelessWidget {
+class AppLayout extends StatefulWidget {
   const AppLayout({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<AppLayout> createState() => _AppLayoutState();
+}
+
+class _AppLayoutState extends State<AppLayout> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     if(Constants.uId != null){
       MainCubit.get(context).getUserData();
     }
+  }
+  @override
+  Widget build(BuildContext context) {
+
     return BlocConsumer<MainCubit,MainStates>(
       listener:(context,state){} ,
       builder:(context,state){

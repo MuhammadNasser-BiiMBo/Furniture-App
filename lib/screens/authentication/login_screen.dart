@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:furnitured/constants/colors.dart';
 import 'package:furnitured/constants/components.dart';
 import 'package:furnitured/constants/constants.dart';
@@ -51,10 +51,10 @@ class LoginScreen extends StatelessWidget {
                         SizedBox(
                           width: 5.w,
                         ),
-                        const Image(
+                        SvgPicture.asset(
                           width: 65,
                           height: 65,
-                          image: Svg(Constants.chair),
+                          Constants.chair,
                         ),
                         SizedBox(
                           width: 5.w,

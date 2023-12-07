@@ -1,10 +1,9 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:furnitured/constants/colors.dart';
 import 'package:furnitured/constants/components.dart';
-import 'package:furnitured/constants/constants.dart';
 import 'package:furnitured/cubit/home_cubit/home_cubit.dart';
 import 'package:furnitured/cubit/home_cubit/home_states.dart';
 import 'package:furnitured/cubit/main_cubit/main_cubit.dart';
@@ -79,15 +78,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       : AppColors.appCat,
                                 ),
                                 child: Center(
-                                  child: Image(
+                                  child: SvgPicture.asset(
                                     width: index == 5 ? 30.sp : null,
                                     color: homeCubit.selectedCategory == index
                                         ? Colors.white
                                         : AppColors.appPrimary,
-                                    image: Svg(
-                                      color: Colors.white,
-                                      categoryImages[index],
-                                    ),
+                                    categoryImages[index],
                                   ),
                                 ),
                               ),
@@ -117,7 +113,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     // products
                     ConditionalBuilder(
-                      condition: homeCubit.allProducts.isNotEmpty && MainCubit.get(context).user!.uId!=null,
+                      condition: homeCubit.allProducts.isNotEmpty &&
+                          MainCubit.get(context).user?.uId != null,
                       fallback: (context) => const Center(
                         child: CircularProgressIndicator(
                           color: AppColors.appPrimary,
@@ -139,9 +136,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             homeCubit
                                 .getCategories()[homeCubit.selectedCategory]
                                 .length,
-                                (index) => Product(
+                            (index) => Product(
                                 product: homeCubit.getCategories()[
-                                homeCubit.selectedCategory][index]),
+                                    homeCubit.selectedCategory][index]),
                           ),
                         );
                       },

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:furnitured/cubit/main_cubit/main_cubit.dart';
 import 'package:furnitured/widgets/big_text.dart';
 import 'package:sizer/sizer.dart';
@@ -27,7 +27,7 @@ class NotificationsScreen extends StatelessWidget {
                   onTap: () {},
                   child: Padding(
                     padding: EdgeInsets.all(8.sp),
-                    child: const Image(image: Svg(Constants.search)),
+                    child: SvgPicture.asset( Constants.search),
                   ),
                 ),
                 BigText(
